@@ -72,7 +72,6 @@ class Projects extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log("SESSION:", state)
   return {
     my_projects: state.myprojects.my_projects,
 

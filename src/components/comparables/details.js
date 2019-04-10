@@ -75,7 +75,6 @@ class DetailsPage extends Component {
 }
 
 const mapStateToProps = state => {
-    console.log("DETAILS STATE:", state)
   return {
     movies: state.movies.movieList
    

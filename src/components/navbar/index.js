@@ -139,7 +139,6 @@ class Nav extends Component{
   }
 
 const mapStateToProps = state => {
-    console.log("SIGN IN STATE", state)
   return {
     sign_in: state.session,
     sign_out: state.session.login
