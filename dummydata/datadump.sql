@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 29, 2019 at 07:22 PM
+-- Generation Time: Apr 27, 2019 at 12:32 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -260,7 +260,9 @@ CREATE TABLE `projects_comparables` (
 
 INSERT INTO `projects_comparables` (`id`, `projects_id`, `comparables_id`) VALUES
 (1, 1, 3),
-(2, 1, 4);
+(2, 1, 4),
+(105, 2, 4),
+(106, 2, 5);
 
 -- --------------------------------------------------------
 
@@ -503,7 +505,7 @@ ALTER TABLE `projects`
 -- AUTO_INCREMENT for table `projects_comparables`
 --
 ALTER TABLE `projects_comparables`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
 
 --
 -- AUTO_INCREMENT for table `projects_images`

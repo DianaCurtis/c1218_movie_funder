@@ -8,8 +8,18 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import rootReducer from './reducers';
 import thunk from 'redux-thunk';
+import { loggedIn } from './actions';
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
+
+if(localStorage.getItem('logged-in') === 'true'){
+  store.dispatch({
+    type: 'SIGN_IN',
+    payload: {}
+  });
+
+  loggedIn()(store.dispatch);
+}
 
 ReactDOM.render(
   <Provider store={store}>

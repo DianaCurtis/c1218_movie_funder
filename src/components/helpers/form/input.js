@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { Component } from 'react';
 
+class Input extends Component {
+  render(){
+    const { input, type, meta:{ touched, error }, ...props } = this.props;
 
-
-export default ({ label, meta:{touched, error}, input, type='text', placeholder, textarea}) => {
-
-    return(
-        <div>
-            <input {...input} type={type} id={input.name} placeholder={placeholder} />
-            <label htmlFor={ input.name }>{ label }</label>
-            <p> { touched && error } </p>
+    return (
+      <div className='input-container'>
+        <input {...input} type={type} />
+        <p className='required'>{ touched && error }</p>
       </div>
-   );
- }
+    )
+  }
+}
+ 
+export default Input;

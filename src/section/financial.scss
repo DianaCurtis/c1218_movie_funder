@@ -4,19 +4,11 @@
   position: absolute;
   top: 5px;
   right: 2%;
-  background-color: #005d57;
-  color: white;
-  padding: 0.5% 1%;
-  font-size: 1.5em;
-  cursor: pointer;
-  z-index: 2;
-  outline: none;
 }
 
-.shareable-header {
-  margin-bottom: 6%;
+h5 {
+  font-weight: 700;
 }
-
 
 .nav.nav-tabs {
   display: flex;
@@ -26,84 +18,59 @@
   margin-bottom: 3%;
 
   .nav-item.nav-link {
-    width: 20%;
+    width: 200px;
+    display: inline-block;
+    font-size: 150%;
+    font-weight: 500;
+    border: 2px solid $green;
+    border-radius: 4px;
+    color: $green;
+    background-color: transparent;
+    cursor: pointer;
+    padding: 8px 13px;
+    margin: 2%;
+    outline: none;
     text-align: center;
-    background-color: $trim-color;
-    border-radius: 25px;
-    font-size:1.5rem;
-    letter-spacing:2px;
-    margin: 4px 0;
-    color:white;
-    
   }
 
-  a:link,
-  a:visited,
-  a:hover,
-  a:active {
-    color: $charts-color;
+  .nav-item.nav-link:hover {
+    background-image: url('./assets/images/light_green.jpg');
+    background-color: $green;
+    color: $black;
   }
 
 }
 
-#financials-background-container{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100vh;
-  z-index:-1;
-  #financials-background{
-    width:100%;
-    height: 100%;
-    top:0;
-    left:0;
-    background: url('./assets/images/contact_us.png');
-    background-size:cover;
-    background-repeat: no-repeat;
-    background-position:center center;
-    position: absolute;
-  }
-  #financials-background-filter{
-    width:100%;
-    height:100%;
-    background:rgba(#373740, 0.9);
-    position: absolute;
-  }
-
-}
-#financial-container{
+#financial-container {
   width: 90%;
-  background:rgba(#373740, 0.9);
-  height: 100%;
-  min-height: 100vh;
   margin: 20px auto 75px;
-  box-shadow:2px 2px solid black;
 }
+
 .card-financial-global-wrapper {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  margin-top: 5%;
   
   .card.financial-card {
     margin: 0 auto;
+    background-color: transparent;
+    border: 2px solid $green;
 
-  
     .financial-header {
       font-size: 1.2rem;
       height: 8vh;
       line-height: 8vh;
-      color:$box-shadow-color;
+      color:$black;
       text-align: center;
-      background-color: $trim-color;
+      background-image: url('./assets/images/light_green.jpg');
       margin: 0;
     }
 
     .financial-body {
       height: 100%;
       font-size: 1.2rem;
-      color: $box-shadow-color;
-      background-color: $dark-background;
+      color: $white;
       padding: 2% 2% 1% 2%;
     }
 
@@ -125,7 +92,9 @@
     }
 
     .tne {
-      justify-content: center;
+      font-size: 1.3rem;
+      font-weight: 700;
+      justify-content: space-evenly;
     }
   }
 
@@ -139,9 +108,52 @@
 
 .northamerica-wrapper {
   display: flex;
-      flex-direction: column;
-      flex-wrap: nowrap;
-      justify-content: space-between;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-between;
 }
 
+@media (orientation: portrait){
+  #financial-container {
+    margin: 115px auto 75px;
+  }
 
+  .financial-charts-header {
+    margin-top: 70px;
+  }
+
+  .graph-container {
+    display: none;
+  }
+
+
+  .card-financial-global-wrapper {
+    display: block;
+    
+    .card.financial-card {
+      width: 100%;
+
+      .financial-header {
+  
+      }
+
+      .international-body,
+      .global-body,
+      .other-body,
+      .northamerica-body {
+        display: block;
+      }
+    }
+
+    .international-card,
+    .global-card,
+    .other-card,
+    .northamerica-card {
+      width: 100%;
+    }
+  }
+
+  .share_button {
+    top: 40px;
+  }
+}

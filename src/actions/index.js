@@ -1,4 +1,23 @@
-import axios from 'axios';
+import axios from 'axios'; 
+
+export const createAccount = (values, projectID) => {
+  const { name, email, password } = values;
+
+  return async dispatch => {
+    const response = await axios.post('/api/signup.php', {
+        name,
+        email, 
+        password,
+        project_id: projectID
+      } 
+    );
+
+    dispatch({
+      type: 'CREATE_ACCOUNT',
+      payload: response
+    });
+  }
+}
 
 export const getFinancialData = (id1, id2) => {
   return async dispatch => {
@@ -32,14 +51,15 @@ export const getMovieData = (film1, film2) => {
   }
 }
 
-export const getMovieTitles = (title1, title2) => {
-  return {
-    type: 'PROJECT_COMPARABLES',
-    payload: {title1, title2}
-  };
-}
+// export const getMovieTitles = (title1, title2) => {
+//   return {
+//     type: 'COMPARABLE_MOVIES',
+//     payload: {title1, title2}
+//   };
+// }
 
 export const getMyProjects = () => {
+  console.log("GET PROJECTS ACTION")
   return async dispatch => {
     const response = await axios.get('/api/myprojects.php');
 
@@ -50,10 +70,46 @@ export const getMyProjects = () => {
   }
 }
 
-export const getProjectTitle = title => {
+export const getProjectValues = values => {
   return {
-    type: 'GET_PROJECT_TITLE',
-    title: title
+    type: 'GET_PROJECT_VALUES',
+    payload: values
+  }
+}
+
+export const loggedIn = () => {
+  return async dispatch => {
+    try {
+      const { data: { login } } = await axios.get('/api/isloggedin.php');
+
+      if(login){
+        return dispatch({
+          type: 'SIGN_IN',
+          payload: {}
+        });
+      }
+
+      throw new Error('Not signed in');
+
+    } catch(err){
+      dispatch({
+        type: 'SIGN_OUT'
+      });
+    }
+  }
+}
+
+export const showModal = boolean => {
+  return {
+    type: 'SHOW_MODAL',
+    payload: boolean 
+  }
+}
+
+export const scrollable = value => {
+  return {
+    type: 'SCROLLABLE',
+    payload: value
   }
 }
 
@@ -65,18 +121,18 @@ export const sendContactForm = values => {
         firstName, lastName, phoneNumber, email, message
     })
 
-  dispatch({
-    type: 'SEND_CONTACT_FORM',
-    payload: response
-  })
-}
+    dispatch({
+      type: 'SEND_CONTACT_FORM',
+      payload: response
+    })
+  }
 }
 
-export const sendProjectData = values => {
-  const { title, runtime, logline, releasedYear, genre, mpaa, developmentStage, synopsis, film1, film2 } = values;
+export const sendProjectData = (values, title, runtime, logline, synopsis) => {
+  const { releasedYear, genre, mpaa, developmentStage, film1, film2 } = values;
 
   return async dispatch => {
-    await axios.post('/api/addproject.php', {
+    const response = await axios.post('/api/addproject.php', {
       newProject: {
         title, runtime, logline, releasedYear, genre, mpaa, developmentStage, synopsis, film1, film2
       } 
@@ -89,31 +145,53 @@ export const sendProjectData = values => {
 
     dispatch({
       type: 'STORE_MOVIE_COMPARISONS',
-      payload: compare
+      payload: {compare, response}
     });
   }
 }
 
-export const signIn = values => {
-  const { email, password } = values;
-
+export const signIn = (email, password) => {
+  console.log("SIGN IN ACTION CALLED")
   return async dispatch => {
-    const response = await axios.post('/api/signin.php', {
-      login: {
-        email, password
-      } 
-    });
+    try {
+      const response = await axios.post('/api/signin.php', {
+        login: {
+          email, password
+        } 
+      });
 
-    dispatch({
-      type: 'SIGN_IN',
-      payload: response
-    });
+      console.log("ACTION RESPONSE", response)
+
+      const { data: { success, login } } = response;
+
+      if(success && login){
+
+        let name = response.data.user.name;
+
+        localStorage.setItem('logged-in', 'true');
+        localStorage.setItem('user', name);
+
+        return dispatch({
+          type: 'SIGN_IN',
+          payload: response
+        });
+      }
+
+      throw new Error('Sign In Failed');
+      
+    } catch(err){
+      console.log('Sign In Failed, dispatch an action to handle log in failure');
+    }
+    
   }
 }
 
-export const signOut = values => {
+export const signOut = () => {
   return async dispatch => {
     const response = await axios.get('/api/signout.php');
+
+    // localStorage.removeItem('logged-in');
+    localStorage.clear();
 
     dispatch({
       type: 'SIGN_OUT',
@@ -132,5 +210,12 @@ export const sendToken = (token) => {
       type: 'SEND_TOKEN',
       payload: response
     });
+  }
+}
+
+export const toggleNavbar = boolean => {
+  return {
+    type: 'TOGGLE_NAVBAR',
+    payload: boolean
   }
 }

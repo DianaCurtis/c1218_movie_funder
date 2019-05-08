@@ -8,20 +8,18 @@ require_once('../../config/mysqlconnect.php');
 $output=[
     'success'=>false,
     'user'=>[
-        'id'=>0,
         'name'=>'',
         'projects'=>[]
     ]
     ];
 
+if(isset($_SESSION['user_id'])){ 
 
-if(isset($_SESSION['user_id'])){ //if is set, user is logged in
-    $output['user']['id']=$_SESSION['user_id'];
     $output['success']=true; 
     $output['login']=true;
     $output['check-signin']=true;
     $json_output=json_encode($output);
-}else{//if user is not logged in
+}else{
     $output['login'] = false;
 
     $data = json_decode( file_get_contents( 'php://input'),true);
@@ -61,10 +59,7 @@ if(isset($_SESSION['user_id'])){ //if is set, user is logged in
                 $_SESSION['user_id']=$row['id'];
             }
             $output['success']=true;
-            $output['login']=true;
-            
-        $output['user']['id']=$_SESSION['user_id'];
-   
+            $output['login']=true;   
         }else{
             throw new Exception('Invalid email or password');
         } 
@@ -73,7 +68,7 @@ if(isset($_SESSION['user_id'])){ //if is set, user is logged in
     }  
 }
 
-    $proj_id_query = "SELECT u.`id`, u.`name`,up.`projects_id`,pc.`comparables_id`,c.`title`
+    $proj_id_query = "SELECT u.`id`, u.`name`,up.`projects_id`, pc.`comparables_id`,c.`title`
                         FROM `users` AS u
                         JOIN `users_projects` AS up ON up.`users_id`=u.`id`
                         JOIN `projects_comparables` AS pc ON pc.`projects_id` = up.`projects_id`
@@ -84,15 +79,22 @@ if(isset($_SESSION['user_id'])){ //if is set, user is logged in
 
         while($row=$proj_id_result->fetch_assoc()){
             $output['user']['name']=$row['name'];
+            $_SESSION['user_name']=$row['name'];
 
             if(!array_key_exists($row['projects_id'],$output['user']['projects'])){
                 $output['user']['projects'][$row['projects_id']]=[];
                 $output['user']['projects'][$row['projects_id']][]=['id'=>$row['comparables_id'],'title'=>$row['title']];
+
             }else{                
                 $output['user']['projects'][$row['projects_id']][]=['id'=>$row['comparables_id'],'title'=>$row['title']];
-            }       
+            } 
+            
         }
 
+
+    $_SESSION['projects'] = $output['user']['projects'];
+   
+        
     $json_output=json_encode($output);
     print_r($json_output);
 

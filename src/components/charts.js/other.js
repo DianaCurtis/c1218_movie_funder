@@ -47,6 +47,13 @@ class OtherGraphs extends Component{
                 labels:{
                     fontColor:'#rgba(218, 216, 223, 1)',
                     fontSize:20
+                },
+                tooltips: {
+                  backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                  titleFontSize: 16,
+                  titleFontColor: '#000',
+                  bodyFontColor: '#000',
+                  bodyFontSize: 16
                 }
             }
          }
@@ -68,4 +75,3 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
     getFinancialData
 })(OtherGraphs);
-

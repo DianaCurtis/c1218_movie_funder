@@ -21,6 +21,7 @@ foreach($_GET AS $key => $value){
 
 $bodyVars = ['title1' => $_GET['title1'], 'title2' => $_GET['title2']]; 
 
+
 if(!$bodyVars){
     exit(500);
 }
@@ -55,6 +56,7 @@ if($bodyVars){
     exit(500);
 }
 
+
 $id_query = 'SELECT c.`id`, c.`title`
                 FROM `comparables` AS c
                 WHERE '.$queryTitle.'';
@@ -65,9 +67,19 @@ $id_array = [];
 while($row_id =$id_result -> fetch_assoc()){
     $id_array[] = $row_id['id'];
     $incoming_title[] = $row_id['title'];
+    
+}
+
+
+if($id_result -> num_rows === 2 && isset($_SESSION['project_id'])){
+    for($indexIDS=0;$indexIDS<count($id_array);$indexIDS++){
+        $output['user']['projects'][$_SESSION['project_id']][]=['id'=>$id_array[$indexIDS], 'title'=>$incoming_title[$indexIDS]];
+    }    
+    $_SESSION['projects'][$_SESSION['project_id']] =  $output['user']['projects'][$_SESSION['project_id']];
 }
 
 if($id_result -> num_rows === 1){
+   
     if($incoming_title[0] == $bodyVars['title1']){
         $movies_url = 'https://api.themoviedb.org/3/search/movie?api_key='.urlencode($movie_key).'&query='.urlencode($bodyVars['title2']);
     } else {
@@ -117,6 +129,26 @@ if($id_result -> num_rows === 1){
                 
                 if($insert_comp_result){
                     $insert_comp_id = mysqli_insert_id($db);
+                   
+                    $_SESSION['new_comparable'] = $insert_comp_id;
+                                    
+                    $insert_query = "INSERT INTO `projects_comparables` SET `projects_id`='{$_SESSION['project_id']}', `comparables_id`='{$insert_comp_id}'";
+                    $insert_result=$db->query($insert_query);
+
+                   
+                    $id_in_database=$_SESSION['comparable_in_database'];
+                    $read_query = "SELECT `title` FROM `comparables` WHERE `id`= {$id_in_database}";
+                    $read_result =$db->query($read_query);
+                    
+                    while($row= $read_result->fetch_assoc()){
+                        $missing_title=$row['title'];
+                    };
+                   $str_insert_comp_id =  ''.$insert_comp_id;
+                   
+                   $output['user']['projects'][$_SESSION['project_id']][]=['id'=>$str_insert_comp_id,'title'=>$movies_detail_data["title"]];
+                   $output['user']['projects'][$_SESSION['project_id']][]=['id'=>$_SESSION['comparable_in_database'],'title'=>$missing_title];
+                   $_SESSION['projects'][] =$output['user']['projects'][$_SESSION['project_id']];
+                   
                 } else {
                     throw new Exception('There was an error with the film that you are trying to enter.');
                 }
@@ -215,7 +247,10 @@ if($id_result -> num_rows === 1){
     } else {
         throw new Exception('There was no response from the API.');
     }
+
 } elseif ($id_result -> num_rows === 0){
+    $no_remp_movies = 0;
+    
     $newTitles = [$_GET['title1'],$_GET['title2']];
     for($newTitleIndex = 0; $newTitleIndex < count($newTitles); $newTitleIndex++){
         $movies_url = 'https://api.themoviedb.org/3/search/movie?api_key='.urlencode($movie_key).'&query='.urlencode($newTitles[$newTitleIndex]);
@@ -259,9 +294,21 @@ if($id_result -> num_rows === 1){
                         `genre`= '{$movies_detail_data["genres"][0]["name"]}'";
                     
                     $insert_comp_result = $db -> query($insert_comp_query);
-                    
+                    $no_remp_movies++;
                     if($insert_comp_result){
                         $insert_comp_id = mysqli_insert_id($db);
+                       
+                        $str_insert_comp_id=''.$insert_comp_id;
+                       
+                         $insert_query = "INSERT INTO `projects_comparables` SET `projects_id`='{$_SESSION['project_id']}', `comparables_id`='{$insert_comp_id}'";
+                         $insert_result=$db->query($insert_query);
+                         $output['user']['projects'][$_SESSION['project_id']][]=['id'=>$str_insert_comp_id,'title'=>$movies_detail_data["title"]];
+                       
+                         if($no_remp_movies===2){
+                            $_SESSION['projects'][$_SESSION['project_id']] = $output['user']['projects'][$_SESSION['project_id']];
+                         }   
+                         
+
                     } else {
                         throw new Exception('There was an error with the film that you are trying to enter.');
                     }
@@ -362,6 +409,9 @@ if($id_result -> num_rows === 1){
         }
     }
 }
+
+
+
 
 $queryPiece='';
 

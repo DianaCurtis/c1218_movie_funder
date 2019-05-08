@@ -1,101 +1,80 @@
 import React, { Component } from 'react';
-import DetailsPage  from './details';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getFinancialData, getMovieData } from '../../actions';
-import Disclaimer from '../footer/disclaimer';
-import {Link} from 'react-router-dom';
+import { getFinancialData, getMovieData, signIn, showModal, scrollable, getMyProjects } from '../../actions';
+import Register from '../newuser/register';
 import Nav from '../navbar/index';
+import Disclaimer from '../footer/disclaimer';
 import Preloader from '../preloader/index';
 
 class MovieComparison extends Component {
-  state = {
-    active: false,
-    pageHasLoaded:false
+
+  componentWillMount(){
+    if(localStorage.getItem('logged-in')){
+      this.props.scrollable('yes-scroll')
+    }
   }
-
-  toggleClass = () => {
-    const currentState = this.state.active;
-    this.setState({active : !currentState});
-  } 
-
+  
   async componentDidMount(){
-    const { title1, title2 } = this.props.comparables;
-
-    setTimeout(()=>{
-      this.setState({ pageHasLoaded: true })
-    },1000)
-
-    await this.props.getMovieData(title1, title2);
+    if(localStorage.getItem('logged-in')){
+      this.props.getMyProjects();
+    }
   }
-
+  
   handleConfirm = () => {
     this.props.getFinancialData(this.props.movies[0].id, this.props.movies[1].id);
+    if(!localStorage.getItem('logged-in')){
+      this.props.showModal(true);
+      this.props.scrollable('no-scroll');
+    }
   }
 
   renderMovies(){
     const { movies } = this.props;
 
-    return this.props.movies.map( (movie, index) => {
-      let inactiveClass = "";
-      if(!this.state.pageHasLoaded){
-        if(index === 0){
-          inactiveClass = "movie-image inactive-left";
-        } else {
-          inactiveClass = "movie-image inactive-right";
-        }
-      }
-      else{
-        inactiveClass = 'movie-image';
-      }
-
+    return this.props.movies.map(movie => {
       return (
-        <div key = {movie.id} className='movies'>
-          <div className='comparison-movie-display'>
-            <img src= { movie.image_url } id='movie-1-img' className={ inactiveClass }/>
-            <div className='movie-title-wrapper'>
-              <h3 className='movie-title-subheader'>{ movie.title } </h3>
-              <h3 className='movie-subheader'>Release Date: { new Date(movie.us_theatrical_release).toLocaleDateString('en-US', {day : 'numeric', month : 'long', year : 'numeric'})}</h3>
-              <h3 className='movie-subheader'>Total Box Office: ${(parseInt(movie.us_gross_bo) + parseInt(movie.intl_gross_bo)).toLocaleString()}</h3>
-            </div>
-          </div>
+        <div key={movie.id} className='movies'>
+          <img src= { movie.image_url } className='movie-image' />
+          <h4 className='green'>{ movie.title }</h4>
+          <p>
+            <span className='green'>Release Date: </span> 
+            { new Date(movie.us_theatrical_release).toLocaleDateString('en-US', {day : 'numeric', month : 'long', year : 'numeric'})}
+          </p>
+          <p>
+            <span className='green'>Total Box Office: </span> 
+            { parseInt(movie.us_gross_bo) + parseInt(movie.intl_gross_bo) ? '$' + (parseInt(movie.us_gross_bo) + parseInt(movie.intl_gross_bo)).toLocaleString() : 'N/A' }
+          </p>
         </div>
       )
-    }) 
+    })
   }
 
   render(){
-    const arrowActive = 'is-active';
-    const { movies } = this.props;
+    const { movies, session, modal, scroll } = this.props;
 
-    if(movies.length === 0){
-        return <h1>Loading Data</h1>;
+    if(!movies){
+      return <Preloader/>
     }
 
     return (
-      <div>
-        <div className='comparables-wrapper'>
-          <div className="comparables-filter"></div>
-          <div className='comparables-container'>
-          <Nav/>
-            <h1> Movie Comparisons</h1>
-            <div className='movie-info-container'>
-              { this.renderMovies() }
-            </div>  
-            <div className='comparables-button-container'>
-              <div onClick = {this.toggleClass} id='arrow-icon' className='button-btn'>
-                <button className="input-submit-button page-button">More Details</button>
-              </div>
-              <div className='comparables-button-btn'>
-                <Link to='/financials'>
-                  <button onClick={this.handleConfirm} className="input-submit-button page-button">Confirm</button>
-                </Link>
-              </div>
-            </div>
-          </div> 
+
+      <div className={'main-container comparables-container ' + scroll }>
+        {!localStorage.getItem('logged-in') && modal && <Register />}
+        <Nav/>
+        <h1 className='details-title'>Movie Comparisons</h1>
+        <div className='movie-info-container'>
+          { this.renderMovies() }
+        </div>  
+        <div className='button-container comparables-buttons'>
+          <Link to='/details'>
+            <button className="input-submit-button page-button">More Details</button>
+          </Link>
+          <Link to='/financials'>
+            <button onClick={this.handleConfirm} className="page-button">Confirm</button>
+          </Link>
         </div>
-        <DetailsPage detailPageOnclick={this.state.active} toggleDetailPage={() => { this.toggleClass()}} />
-        <Disclaimer/>
-      </div> 
+      </div>
     )
   }
 }
@@ -103,10 +82,18 @@ class MovieComparison extends Component {
 const mapStateToProps = state => {
   return {
     comparables: state.comparables,
-    movies: state.movies.movieList
+    movies: state.movies.movieList,
+    session: state.session,
+    modal: state.modal.showModal,
+    scroll: state.scrollable.scrollable
   }
 } 
 
 export default connect(mapStateToProps, {
-  getMovieData, getFinancialData
+  getMovieData, 
+  getFinancialData, 
+  signIn,
+  showModal,
+  scrollable,
+  getMyProjects
 })(MovieComparison);

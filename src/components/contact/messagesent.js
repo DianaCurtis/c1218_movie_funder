@@ -4,13 +4,10 @@ import Nav from '../navbar/index';
 
 const MessageSent = () => {
   return (
-    <div>
-    <Nav/>
-      <div className='form-box'>
-        <h1>Your message has been sent!</h1>
-
-        <h1>Thank You!</h1>
-      </div>
+    <div className='main-container'>
+      <Nav/>
+      <h1>Your message has been sent!</h1>
+      <h1>Thank You!</h1>
     </div>
   )
 }

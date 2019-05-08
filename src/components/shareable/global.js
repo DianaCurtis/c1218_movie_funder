@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+    import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
 import { Tabs, Tab } from 'react-bootstrap';
 import { connect } from 'react-redux';
@@ -20,12 +20,12 @@ class Global extends Component {
         return(
             <div className='card-financial-global-wrapper'>
                 <div className='card financial-card global-card'>
-                    <h5 className='financial-header'>Global</h5>
+                    <h5 className='financial-header'>GLOBAL</h5>
                     <div className='financial-body global-body'>
-                        <p>Royalties Gross:<br/> ${this.props.finance['royalties gross'].toLocaleString()}</p>
-                        <p>Merchandising Distribution Fee:<br/> ${this.props.finance['merchandising distribution fee'].toLocaleString()}</p>
-                        <p>Sales Agent Fee:<br/> ${this.props.finance['sales agent fee'].toLocaleString()}</p>
-                        <p>Distributor's Net:<br/> ${this.props.finance["distributor's net"].toLocaleString()}</p>
+                        <p><span className='green'>Royalties Gross:</span><br/> ${this.props.finance['royalties gross'].toLocaleString()}</p>
+                        <p><span className='green'>Merchandising Distribution Fee:</span><br/> ${this.props.finance['merchandising distribution fee'].toLocaleString()}</p>
+                        <p><span className='green'>Sales Agent Fee:</span><br/> ${this.props.finance['sales agent fee'].toLocaleString()}</p>
+                        <p><span className='green'>Distributor's Net:</span><br/> ${this.props.finance["distributor's net"].toLocaleString()}</p>
                     </div>
                 </div>
             </div>

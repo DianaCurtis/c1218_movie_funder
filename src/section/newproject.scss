@@ -1,101 +1,85 @@
 @import './variables';
 
-.new-project-wrapper {
-  background-image: url('./assets/images/user.jpeg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  width: 100%;
-  padding: 2% 0;
-}
-
 .new-project-form {
-  width: 70%;
-  padding: 42px;
-  background: rgba(212, 212, 212, 0.8);
-  box-shadow: 2px 2px 8px;
-  border-radius: 14px;
-  margin: 0 auto;
-
-  p {
-    color:$required-form;
-    font-weight:400px;
-  }
+  margin-top: 5%;
 }
 
-#title-label,
-#runtime-label,
-#logline-label,
-#synopsis-label,
-#film1-label,
-#film2-label,
-label {
-  color: $box-shadow-color;
-  text-shadow:1px 1px 1px black;
-  margin-bottom: 0.1%;
+.new-project-form-page-2 {
+  margin: 8% auto;
+}
+
+.dropdown-container {
+  width: 15vw;
+}
+
+.autocomplete-input {
+  width: 27.5vw;
+}
+
+.four-input-grouping {
+  margin: 0 1%;
+  min-width: 160px;
+}
+
+.page2-label {
+  color: $green;
+  margin: 5% 0 0 0;
+}
+
+.new-project-buttons {
+  z-index: -1;
 }
 
 #year-input, 
 #mpaa-input, 
 #genre-input, 
 #production-stage-input {
-  color: $box-shadow-color;
-}
-
-.user-input-button-container {
-  text-align: center;
-}
-
-.multiple-inputs-fields {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.form-control {
-  color: $input-placeholder;
-  background-color: #3e3e44;
-  border: none;
-}
-
-#synopsis {
-  height: 15vh;
-  margin-bottom: 1%;
-}
-
-.meets {
-  font-size: 1.1em;
-  line-height: 5em;
-  text-align: center;
-  display: inline-block;  
+  color: $white;
 }
 
 .meets-container {
-  color: $box-shadow-color;
-  text-shadow:1px 1px 1px black;
   margin-bottom: 0.1%;
   width: 10vw;
   text-align: center;
+
+  .meets {
+    color: $white;
+    font-size: 1.1em;
+    line-height: 9.5em;
+    display: inline-block;  
+  }
 }
+
+/*-------------- MOVIE SUGGESTIONS --------------*/
+
+.suggestion-list {
+  list-style-type: none;
+  background-color: $white;
+  border-radius: 3px;
+}
+
+.suggestion-list li {
+  padding: 0 2%;
+  cursor: pointer;
+}
+
+.suggestion-list li:hover {
+  background-color: $green;
+  color: $white;
+}
+
+.movie-poster {
+  height: 50px;
+  margin: 1% 0;
+}
+
+/*-------------- TOOLTIPS --------------*/
 
 .fa-question-circle {
   display: inline-block;
   margin-left: 2%;
-
   position: relative;
-}
-
-.four-input-grouping {
-  width: 15vw;
-}
-
-.two-input-grouping {
-  width: 31vw;
-}
-
-.film-input-grouping {
-  flex-grow: 1;
+  color: $white;
 }
 
 .fa-question-circle .tooltiptext {
@@ -125,99 +109,40 @@ label {
   margin-bottom: 5%;
 }
 
-/*.fa-question-circle .tooltiptext::after {
-  content: "";
-  position: absolute;
-  top: 45%;
-  left: 0%;
-  margin-left: -10px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: transparent #555 transparent transparent;
-}*/
-
 .fa-question-circle:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
 }
 
-.new-project-clear-button {
-  margin-right: 5%;
-}
+/*-------------- MEDIA QUERIES --------------*/
 
-@media (max-width: 1100px){
-  .two-input-grouping {
-    min-width: 100%;
-  }    
-
-  .four-input-grouping {
-    min-width: 155px;
-  }  
-}
-
-@media (max-width: 756px){ 
-  .film-input-grouping {
-    width: 100%;
-  }
-
-  .meets-container {
-    width: 100%;
-  }
-
-  .meets {
-    font-size: 1em;
-    line-height: 1em; 
-  }
-}
-
-@media (max-width: 570px){ 
-  .four-input-grouping {
-    min-width: 100%;
-  } 
-}
-
-@media (max-width: 450px){
-  .new-project-wrapper {
-    padding: 2% 0 15% 0;
-  }
-
-  .new-project-container {
-    padding-top: 15%;
-  }
-
-  .new-project-form {
-    width: 85vw;
-    padding: 6% 5%;
+@media (orientation: portrait){
+  .new-project {
+    margin-bottom: 8%;
   }
 
   .new-project-title {
-    font-size: 2em;
-  }
-
-  .two-input-grouping,
-  .four-input-grouping {
-    width: 100%;
+    margin-bottom: 16%;
   }
 
   .fa-question-circle .tooltiptext {
-    display: inline-block;
-    width: 43vw;   
-    bottom: -95%;
+    width: 38vw;
   }
 
-  .meets {
-    display: none; 
+  .dropdown-container {
+    width: 100%;
   }
-}
 
-@media (max-width: 360px){
-  .new-project-wrapper {
-    padding: 2% 0 20% 0;
+  .autocomplete-input {
+    width: 100%;
   }
-}
 
-@media (max-width: 320px){
-  .new-project-wrapper {
-    padding: 4% 0 23% 0;
+  .new-project-buttons {
+    position: static;
+    transform: none;
+  }
+
+  .meets-container {
+    display: none;
   }
 }

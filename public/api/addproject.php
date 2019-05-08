@@ -6,27 +6,16 @@ $output = [
     'success' => false
 ];
 $incoming_request = json_decode( file_get_contents( 'php://input'),true);
-// $request = [
-//     "runtime"=> "130",
-//     "logline"=> "In class no one can hear you scream",
-//     "title"=> "The Greatest Movie",
-//     "releasedYear"=> "2019",
-//     "genre"=> "Horror",
-//     "mpaa"=> "PG-13",
-//     "developmentStage"=> "Pre-production",
-//     "synopsis"=> "Student try to finalize a student project as well as juggling the demands of a portfolio and trying to find a job.",
-//     "film1"=> "The Amazing Spider-Man",
-//     "film2"=> "The Lake House"
-// ];
+
 
 $required_keys=['runtime','logline','title','releasedYear','genre','mpaa','developmentStage','synopsis','film1','film2'];
 $input_keys_array=[];
 $request = $incoming_request['newProject'];
+
 foreach($request AS $key=>$value){
     $request[$key] = addslashes($value);
     $keys_array[]=$key;
 };
-print_r($keys_array);
 
 foreach($required_keys AS $key){
     if(!array_key_exists($key,$request)){
@@ -55,9 +44,11 @@ $queryTitle=' c.`title`= '.json_encode($request['film1']).' OR  c.`title`= '.jso
 $id_query = 'SELECT c.`id`,c.`title`
                 FROM `comparables` AS c
                 WHERE '.$queryTitle.'';
+
 $id_result=$db->query($id_query);
 $insert_ids=[];
 $comparables_ids=[];
+
 
 while($row_id=$id_result->fetch_assoc()){
     $comparables_ids[]=$row_id['id'];
@@ -66,17 +57,28 @@ while($row_id=$id_result->fetch_assoc()){
     $insert_ids[]= mysqli_insert_id($db);
 }
 
-$output['comparables_ids']=$comparables_ids;
+$output['comparables_ids'] = $comparables_ids;
 
-
-$insert_users_projects_query = " INSERT INTO `users_projects` SET `users_id`='{$_SESSION["user_id"]}', `projects_id`='{$_SESSION["project_id"]}' ";
-$result_user_projects =$db->query($insert_users_projects_query);
-
-if($result_user_projects){
-    $output['insert new project'] = true;
+if(count( $comparables_ids) === 1){
+    $_SESSION['comparable_in_database'] = $output['comparables_ids'][0];
+    
 }else{
-    throw new Exception('failed to insert new project');
-};
+    unset($_SESSION['comparable_in_database'] );
+}
+
+
+if(isset($_SESSION['user_id'])){
+    $insert_users_projects_query = " INSERT INTO `users_projects` SET `users_id`='{$_SESSION["user_id"]}', `projects_id`='{$_SESSION["project_id"]}' ";
+    $result_user_projects =$db->query($insert_users_projects_query);
+
+    if($result_user_projects){
+        $output['insert new project'] = true;
+    }else{
+        throw new Exception('failed to insert new project');
+    };
+}
+
+
 
 
 $json_output = json_encode($output);

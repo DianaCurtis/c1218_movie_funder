@@ -1,23 +1,20 @@
 <!doctype html>
 <html lang='en'>
-<head>
+  <head>
     <meta charset='UTF-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv='X-UA-Compatible' content='ie=edge'>
     <title>Fund That Film</title>
     <link rel='icon' href='/dist/favicon@2x.png'>
-    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet'/>
     <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.2/css/all.css' integrity='sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr' crossorigin='anonymous'/>
-</head>
-<style>
+  </head>
+<!-- <style>
 .spinner-container{
-    background-color: #26373a;
-    height:100vh;
-    width:100%;
-    overflow:hidden;
-    position:fixed;
-    top:0;
-    left:0;
+    background-color: transparent;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50% -50%);
     opacity:1;
     transition: opacity 1s;
 }
@@ -33,9 +30,9 @@
     right: 0;
     margin: auto;
     z-index: 100;
-
     animation:spin 1s infinite linear;  
   }
+
   @keyframes spin{
       0% { 
         transform:rotate(0deg);
@@ -45,22 +42,20 @@
     }
   }
     
-.spinner-disappear{
+.spinner-disappear {
    opacity: 0; 
    transition: opacity 1s;
    pointer-events: none;  
 }
 
-</style>
-<body id='body'>
+</style> -->
+  <body id='body'>
     <div id='root'></div>
-
- <script src='/dist/bundle.vendor.js'></script>
+    <script src='/dist/bundle.vendor.js'></script>
     <script src='/dist/bundle.main.js'></script> 
-    <!-- <div class='spinner-container'>
-         <div class='spinner'></div>
-    </div>
-    <div class='spinner-disappear'></div>
-  -->
-</body>
+      <!-- <div class='spinner-container'>
+        <div class='spinner'></div>
+      </div>
+      <div class='spinner-disappear'></div> -->
+  </body>
 </html>

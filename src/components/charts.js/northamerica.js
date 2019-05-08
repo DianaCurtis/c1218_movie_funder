@@ -4,6 +4,18 @@ import { connect } from 'react-redux';
 import { getFinancialData } from '../../actions';
 
 class NorthAmericaGraphs extends Component {
+  divisible = (value) => {
+      if(value <= 10000){
+          return (value/1000).toFixed(1)
+      } else if(value <= 100000){
+          return (value/10000).toFixed(1)
+      } else if(value <= 1000000){
+          return (value/100000).toFixed(1)
+      } else if(value > 1000000){
+          return (value/1000000).toFixed(1)
+      }
+  }
+
   componentDidUpdate() {
     let ctx = document.getElementById('northAmericaChart');
     let northAmericaChart = new Chart(ctx, {
@@ -22,13 +34,13 @@ class NorthAmericaGraphs extends Component {
           {
             label: 'Production Gross in Millions',
             data: [
-              this.props.finance['theatrical']['gross'],
-              this.props.finance['home entertainment']['gross'],
-              this.props.finance['pay per view']['gross'],
-              this.props.finance['premium cable']['gross'],
-              this.props.finance['free tv premiere']['gross'],
-              this.props.finance['cable and syndicated tv']['gross'],
-              this.props.finance['total net earnings']
+              this.divisible(this.props.finance['theatrical']['gross']),
+              this.divisible(this.props.finance['home entertainment']['gross']),
+              this.divisible(this.props.finance['pay per view']['gross']),
+              this.divisible(this.props.finance['premium cable']['gross']),
+              this.divisible(this.props.finance['free tv premiere']['gross']),
+              this.divisible(this.props.finance['cable and syndicated tv']['gross']),
+              this.divisible(this.props.finance['total net earnings'])
             ],
             backgroundColor: [
               'rgba(255, 99, 132, 0.2)',
@@ -71,6 +83,13 @@ class NorthAmericaGraphs extends Component {
                     padding:5,
                     fontColor:'#35f8c7',
                     fontFamily: 'sans-serif'
+                },
+                tooltips: {
+                  backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                  titleFontSize: 16,
+                  titleFontColor: '#000',
+                  bodyFontColor: '#000',
+                  bodyFontSize: 16
                 }
             }
     });

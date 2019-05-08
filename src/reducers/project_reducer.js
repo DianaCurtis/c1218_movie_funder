@@ -1,11 +1,11 @@
 const DEFAULT_STATE = {
-  title: ''
+  project: {}
 };
 
 const projectReducer = (state = DEFAULT_STATE, action) => {
   switch(action.type){
-    case 'GET_PROJECT_TITLE':
-      return {project: action.title}
+    case 'GET_PROJECT_VALUES':
+      return {project: action.payload}
     default:
       return state
   }

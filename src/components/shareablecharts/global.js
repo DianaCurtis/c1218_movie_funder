@@ -4,6 +4,18 @@ import { connect } from 'react-redux';
 import { sendToken } from '../../actions';
 
 class GlobalGraphs extends Component{
+    divisible = (value) => {
+        if(value <= 10000){
+            return (value/1000).toFixed(1)
+        } else if(value <= 100000){
+            return (value/10000).toFixed(1)
+        } else if(value <= 1000000){
+            return (value/100000).toFixed(1)
+        } else if(value > 1000000){
+            return (value/1000000).toFixed(1)
+        }
+    }
+
     componentDidUpdate(){
         let ctx =document.getElementById('globalChart');
         let globalChart = new Chart (ctx, {
@@ -13,28 +25,28 @@ class GlobalGraphs extends Component{
                 datasets:[{
                     label: 'Global Consumer Products',
                     data: [
-                        this.props.finance['royalties gross'],
-                        this.props.finance['sales agent fee'],
-                        this.props.finance["distributor's net"]
+                        this.divisible(this.props.finance['royalties gross']),
+                        this.divisible(this.props.finance['sales agent fee']),
+                        this.divisible(this.props.finance["distributor's net"])
                     ],
                     borderColor: '#8e5ea2',
                     backgroundColor: [
-                        "rgba(255, 99, 132, 0.2)",
-                        "rgba(54, 162, 235, 0.2)",
-                        "rgba(255, 206, 86, 0.2)",
-                        "rgba(75, 192, 192, 0.2)",
-                        "rgba(153, 102, 255, 0.2)",
-                        "rgba(255, 159, 64, 0.2)",
-                        "rgba(255, 99, 132, 0.2)"
+                        "rgba(255, 99, 132, 0.4)",
+                        "rgba(54, 162, 235, 0.4)",
+                        "rgba(255, 206, 86, 0.4)",
+                        "rgba(75, 192, 192, 0.4)",
+                        "rgba(153, 102, 255, 0.4)",
+                        "rgba(255, 159, 64, 0.4)",
+                        "rgba(255, 99, 132, 0.4)"
                       ],
                       borderColor: [
-                        "rgba(255,99,132,1)",
-                        "rgba(54, 162, 235, 1)",
-                        "rgba(255, 206, 86, 1)",
-                        "rgba(75, 192, 192, 1)",
-                        "rgba(153, 102, 255, 1)",
-                        "rgba(255, 159, 64, 1)",
-                        "rgba(255,99,132,1)"
+                        "rgb(255,99,132)",
+                        "rgb(54, 162, 235)",
+                        "rgb(255, 206, 86)",
+                        "rgb(75, 192, 192)",
+                        "rgb(153, 102, 255)",
+                        "rgb(255, 159, 64)",
+                        "rgb(255,99,132)"
                       ],
                     borderWidth: 1,
                 }]
@@ -58,6 +70,13 @@ class GlobalGraphs extends Component{
                     padding:5,
                     fontColor:'#35f8c7',
                     fontFamily: 'sans-serif'
+                },
+                tooltips: {
+                  backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                  titleFontSize: 16,
+                  titleFontColor: '#000',
+                  bodyFontColor: '#000',
+                  bodyFontSize: 16
                 }
             }
         })

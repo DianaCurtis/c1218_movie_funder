@@ -7,7 +7,7 @@ class OtherGraphs extends Component{
     componentDidUpdate(){
         let ratio = (this.props.finance["distributor's net earning to cost ratio"]).split('');
         let cost = ratio[2];
-        let earnings = ratio[0]
+        let earnings = ratio[0];
 
         var ctx = document.getElementById('otherChart');
         var otherChart = new Chart (ctx, {
@@ -18,8 +18,8 @@ class OtherGraphs extends Component{
                     {
                         label: 'Distributor Net Earning',
                         data: [cost, earnings],
-                        backgroundColor: [  'rgba(255, 99, 132, 0.2)',  'rgba(54, 162, 235, 0.2)'],
-                        borderColor:['rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)'],
+                        backgroundColor: [  'rgba(255, 99, 132, 0.4)',  'rgba(54, 162, 235, 0.4)'],
+                        borderColor:['rgb(255,99,132)', 'rgb(54, 162, 235)'],
                         borderWidth:1                    
                     }],
             },
@@ -47,6 +47,13 @@ class OtherGraphs extends Component{
                 labels:{
                     fontColor:'#rgba(218, 216, 223, 1)',
                     fontSize:20
+                },
+                tooltips: {
+                  backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                  titleFontSize: 16,
+                  titleFontColor: '#000',
+                  bodyFontColor: '#000',
+                  bodyFontSize: 16
                 }
             }
          }
@@ -68,4 +75,3 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
     sendToken
 })(OtherGraphs);
-

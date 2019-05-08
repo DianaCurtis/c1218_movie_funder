@@ -12,7 +12,7 @@ import NorthAmericaGraphs from './../shareablecharts/northamerica';
 import Disclaimer from '../footer/disclaimer';
 import Preloader from '../preloader/index';
 import { connect } from 'react-redux';
-import { sendToken, getProjectTitle } from '../../actions';
+import { sendToken, getProjectValues } from '../../actions';
 
 const token = 'f1f3aabffb332762c3c9c0cd87f9e280380d0a8b';
 
@@ -23,25 +23,21 @@ class Shareable extends Component {
 
   render(){
     return (
-      <div>
+      <div className='main-container'>
          <Preloader/>
-        <div id="financials-background-container">
-          <div id="financials-background"></div>
-          <div id="financials-background-filter"></div>
-        </div>
         <div id="financial-container">
-          <h1 className='shareable-header'>Financial Calculations {this.props.projectTitle}</h1>
+          <h1 className='shareable-header'>Financial Calculations { this.props.projectTitle.title }</h1>
             <Tabs defaultActiveKey='northAmerica'>
               <Tab eventKey='northAmerica' title='North America' className='tab'>
-                <div className='northAmerican-graph-container'>
+                <div className='graph-container'>
                   <h1 className='chart-header'>Production Gross in Millions</h1>
                   <NorthAmericaGraphs/>
                 </div>
                 <NorthAmerica/>
               </Tab>
               <Tab eventKey='international' title='International'>
-                <div className='international-graphs-container'>
-                    <h1 className='chart-header'>International Gross Earnings</h1>
+                <div className='graph-container'>
+                  <h1 className='chart-header'>International Gross Earnings</h1>
                   <InternationalGraphs/>
                 </div>
                 <div className='international-tab-wrapper'>
@@ -49,14 +45,18 @@ class Shareable extends Component {
                 </div>
               </Tab>
               <Tab eventKey='global' title='Global'>
-                <h1 className='chart-header'>Global Consumer Products</h1>
-                <GlobalGraphs/>
+                <div className='graph-container'>
+                  <h1 className='chart-header'>Global Consumer Products</h1>
+                  <GlobalGraphs/>
+                </div>
                 <Global/>
               </Tab>
               <Tab eventKey='other' title='Other'>
               <div className='other-northAmerican-graph-container'>
+                <div className='graph-container'>
                   <h1 className='chart-header'>Distributors To Cost Ratio</h1>
-                <OtherGraphs/>
+                  <OtherGraphs/>
+                </div>
                 <Other/>
               </div>
               </Tab>
@@ -69,12 +69,12 @@ class Shareable extends Component {
 }
 
 const mapStateToProps = state => {
-    return {
-        projectTitle: state.project.project
-    }
+  return {
+    projectTitle: state.project.project
+  }
 }
 
 export default connect(mapStateToProps, {
-    getProjectTitle, 
-    sendToken
+  getProjectValues, 
+  sendToken
 })(Shareable);

@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { Link, Redirect, withRouter } from 'react-router-dom';
 import logo from '../../assets/images/ftf_logo_150.png';
 import { connect } from 'react-redux';
-import { signIn, signOut } from '../../actions';
+import { signIn, signOut, toggleNavbar } from '../../actions';
 
 class Nav extends Component{
     state = {
-        active: false,
         topLinks: [
             {
                 text: 'New Project',
@@ -30,7 +29,7 @@ class Nav extends Component{
             },
             {
                 text:'Terms & Conditions',
-                to:'/terms'
+                to:'/terms_and_conditions'
             }
         ],
         signIn: [
@@ -42,20 +41,17 @@ class Nav extends Component{
     }
 
     toggleClass = () => {
-        const currentState = this.state.active;
-        this.setState({ active: !currentState });
+        const currentState = this.props.toggle;
+        this.props.toggleNavbar(!currentState);
     }
 
     hideNavbar = () => {
-        this.setState({ active: false });
-    }
-
-    componentWillMount(){
-        window.addEventListener('click', this.hideNavbar, true);
+        this.props.toggleNavbar(false);
     }
 
     logout = () => {
         this.props.signOut();
+        // this.props.register(true);
         this.props.history.push('/');
     }
 
@@ -65,6 +61,7 @@ class Nav extends Component{
                 <li>
                     { link.text }
                 </li>
+                <hr />
             </Link>
         )
     }
@@ -103,32 +100,29 @@ class Nav extends Component{
         return(
             <div className='nav-bar-container'>
                 <div className='nav-bar'>
-                    <button onClick= { this.toggleClass } className= { this.state.active ? (hamburgerBaseClass + hamburgerActive):hamburgerBaseClass } type='button'>
+                    <button onClick= { this.toggleClass } className= { this.props.toggle ? (hamburgerBaseClass + hamburgerActive):hamburgerBaseClass } type='button'>
                         <span className='hamburger-box'>
                             <span className='hamburger-inner'></span>
                         </span>
                     </button>
-
-                    <h1 className='terms-header about-header'>{this.props.title}</h1>
-
                 </div>
-                <div id='slide-out-menu' className = {this.state.active ? 'active' : '' }>
-                    <button onClick= { this.toggleClass } className= { this.state.active ? (hamburgerBaseClass + hamburgerActive):hamburgerBaseClass } type='button'>
+                <div id='slide-out-menu' className = {this.props.toggle ? 'active' : '' }>
+                    <button onClick= { this.hideNavbar } className= { this.props.toggle ? (hamburgerBaseClass + hamburgerActive):hamburgerBaseClass } type='button'>
                         <span className='hamburger-box'>
                             <span className='hamburger-inner'></span>
                         </span>
                     </button>
                     <div className='login-img-container'>
-                        <img className='login-img' src= { logo }/>
+                        <Link to='/'>
+                            <img className='login-img' src= { logo }/>
+                        </Link>
                     </div>
                     <div className='welcome-login-header'>
-                    {/* h1  will have to be done dynmically once we are able to create a login system
-                    that then will be used to pull the users name and email address from the database to the browser */}
-                        <h2>{login ? `Welcome ${this.props.sign_in.user.name}!` : 'Fund That Film'}</h2>
+                        <h2>FUND THAT FILM</h2>
                     </div>
                     <div className='slide-out-menu-content-container'>
                         <div className='slide-out-menu-content'>
-                            <hr/>
+                            <hr className='main-hr'/>
                             { this.renderLinks() }
                         </div>
                     </div>
@@ -141,10 +135,16 @@ class Nav extends Component{
 const mapStateToProps = state => {
   return {
     sign_in: state.session,
-    sign_out: state.session.login
+    sign_out: state.session.login,
+    // register: state.session.register,
+    toggle: state.navbar.active,
+    scroll: state.scrollable.scrollable
   }
 }
 
 export default withRouter(connect(mapStateToProps, { 
-    signIn, signOut 
+    signIn, 
+    signOut, 
+    // register, 
+    toggleNavbar
 })(Nav)); 

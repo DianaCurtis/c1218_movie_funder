@@ -1,22 +1,37 @@
 @import './external/hamburger.scss';
 @import './variables';
 
-.hamburger,
-.hamburger.is-active {
+.hamburger  {
     position: absolute;
     top: 5px;
-    filter: drop-shadow(1px 1px 8px);
-    z-index: 1;
     
     .hamburger-inner { 
-        background-color: white;  
+        background-color: $green;  
         
         &:after {
-            background-color: white;
+            background-color: $green;
         }
         
         &:before {
-            background-color: white;
+            background-color: $green;
+        }  
+    }
+}
+
+.hamburger.is-active {
+    position: absolute;
+    top: 5px;
+    outline: none;
+    
+    .hamburger-inner { 
+        background-color: $black;  
+        
+        &:after {
+            background-color: $black;
+        }
+        
+        &:before {
+            background-color: $black;
         }  
     }
 }
@@ -25,7 +40,7 @@
     top: 0;
     left: 0;
     position:fixed;
-    width: 100%;
+    width: 75px;
     height: 8vh;
     display: block;
     z-index: 1;
@@ -49,12 +64,10 @@
     top: 0;
     left: 0;
     height: 100vh;
-    width: 320px;
+    width: 300px;
     transform: translateX(-100%);
     transition: all 0.25s ease;
-    background: $side-navbar; 
-    z-index: 10000;
-    box-shadow: 2px 2px 10px $input-background;
+    background-image: url('./assets/images/light_green.jpg');
     
     .login-img-container {
         display: block;
@@ -63,30 +76,23 @@
     }
 
     hr {
-        border-color: $dark-background;
-        border: 2px solid white;
+        margin: 0;
     }
 
     .login-img {
-     width: 140px;
-     margin: 0px 0px 18px;
-    }
-
-    .welcome-login-header {
-        display: block;
-        position: relative;
-        margin: 0 21px;
+        width: 140px;
+        margin: 10% 10% 15% 10%;
     }
     
     h2 {
-        color: $box-shadow-color;
+        color: $black;
         font-size: 2rem;
         text-align: center;
+        margin: 5%;
     }
     
     .slide-out-menu-content-container {
         position: relative;
-        padding: 15px;
         width: 100%;
     
         .slide-out-menu-content {
@@ -97,8 +103,6 @@
             }
 
            .login-img {
-                border-radius: 50%;
-                box-shadow: 2px 2px 2px whitesmoke;
                 width: 50px;
             }
            
@@ -107,30 +111,18 @@
                 position: relative;
                 margin: 0 21px;
             }
-
-            h1 {
-                color: $box-shadow-color;
-                font-size: 1rem;
-            }
-
-            hr {
-                border-color: $dark-background;
-                border-color: white;
-                border-width: 1px;
-            }
         }
 
         li {
             list-style-type: none;
-            padding: 14px 16px;
+            padding: 8% 30px;
             background: transparent;
             transition: background 0.25s;
-            color: white;
+            color: $black;
             font-size: 1.2rem;
 
             &:hover {
-                color: $button-color;
-                background-color: $input-text;
+                background-color: $medium-green;
             }
         }
     }
@@ -143,4 +135,62 @@
 
 .signout-button {
     cursor: pointer;
+}
+
+@media (orientation: portrait) {
+  /*  #slide-out-menu {
+        width: 60%;
+    }*/
+
+    .nav-bar-container {
+        width: 100%;
+        height: 6.5vh;
+        background-color: $black;
+    }
+}
+
+@media only screen and (max-height: 450px){
+    .hamburger.is-active {
+        padding: 5%;
+        
+        .hamburger-inner { 
+            height: 2px;
+            width: 20px; 
+            
+            &:after {
+                height: 2px;
+                width: 20px;
+            }
+            
+            &:before {
+                height: 2px;
+                width: 20px;
+            }  
+        }
+    }
+
+    #slide-out-menu {
+        /*width: 200px;*/
+
+        .welcome-login-header {
+            display: none;
+        }
+
+        .login-img-container {
+            display: none;
+        } 
+
+        .slide-out-menu-content-container {
+            margin-top: 50px;
+
+            .slide-out-menu-content {
+
+                li {
+                    padding: 3% 20px;
+                    font-size: 1rem;
+                }
+            }
+        }
+    }
+    
 }
