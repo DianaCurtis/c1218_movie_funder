@@ -59,7 +59,6 @@ export const getMovieData = (film1, film2) => {
 // }
 
 export const getMyProjects = () => {
-  console.log("GET PROJECTS ACTION")
   return async dispatch => {
     const response = await axios.get('/api/myprojects.php');
 
@@ -151,7 +150,6 @@ export const sendProjectData = (values, title, runtime, logline, synopsis) => {
 }
 
 export const signIn = (email, password) => {
-  console.log("SIGN IN ACTION CALLED")
   return async dispatch => {
     try {
       const response = await axios.post('/api/signin.php', {
@@ -159,8 +157,6 @@ export const signIn = (email, password) => {
           email, password
         } 
       });
-
-      console.log("ACTION RESPONSE", response)
 
       const { data: { success, login } } = response;
 

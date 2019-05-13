@@ -38,8 +38,8 @@ class DetailsPage extends Component {
                   { movie.mpaa_rating ? movie.mpaa_rating : 'N/A'}</p>
                 <p><span className='green details-desktop'>Audience Satisfaction: </span><br/>
                   { parseInt(movie.audience_satisfaction) ? (movie.audience_satisfaction * 100) + '%' : 'N/A'}</p>
-                <p><span className='green details-mobile'>Audience<br/>Satisfaction: </span><br/>
-                  { parseInt(movie.audience_satisfaction) ? (movie.audience_satisfaction * 100) + '%' : 'N/A'}</p>
+                {/*<p><span className='green details-mobile'>Audience<br/>Satisfaction: </span><br/>
+                  { parseInt(movie.audience_satisfaction) ? (movie.audience_satisfaction * 100) + '%' : 'N/A'}</p>*/}
               </div>
               <div>
                 <p><span className='green'>Budget: </span><br/>
@@ -48,8 +48,8 @@ class DetailsPage extends Component {
                   {parseInt(movie.us_gross_bo) ? '$' + parseInt(movie.us_gross_bo).toLocaleString() : 'N/A'}</p>
                 <p><span className='green details-desktop'>International Box Office: </span><br/>
                   {parseInt(movie.intl_gross_bo) ? '$' + parseInt(movie.intl_gross_bo).toLocaleString() : 'N/A'}</p>
-                <p><span className='green details-mobile'>International<br/>Box Office: </span><br/>
-                  {parseInt(movie.intl_gross_bo) ? '$' + parseInt(movie.intl_gross_bo).toLocaleString() : 'N/A'}</p>
+              {/*<p><span className='green details-mobile'>International<br/>Box Office: </span><br/>
+                  {parseInt(movie.intl_gross_bo) ? '$' + parseInt(movie.intl_gross_bo).toLocaleString() : 'N/A'}</p>*/}
               </div>
             </div>
           </div>

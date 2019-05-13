@@ -141,7 +141,7 @@ if ($result){
         $na_theatrical_gross_bo = floor($avg*0.60); 
         $na_theatrical_film_rental = floor($na_theatrical_gross_bo*0.50);
         $na_theatrical_distribution_fee = floor($na_theatrical_film_rental*0.25);
-        $na_theatrical_distribution_expense = 55000000;
+        $na_theatrical_distribution_expense = floor($na_theatrical_gross_bo*0.86);
         $na_theatrical_distributor_net = floor($na_theatrical_gross_bo - $na_theatrical_film_rental - $na_theatrical_distribution_fee - $na_theatrical_distribution_expense); 
 
         $data[0]['north america']['theatrical']['gross'] = $na_theatrical_gross_bo;
